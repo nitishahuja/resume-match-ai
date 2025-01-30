@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  width: 320px;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+h3 {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+#result {
+  margin-top: 10px;
+  font-weight: bold;
+  color: green;
+}
+
+#missingKeywords {
+  margin-top: 10px;
+  color: red;
+  font-size: 14px;
+}

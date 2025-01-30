@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Resume Matcher</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <h1>Resume Matcher</h1>
+
+    <label for="resumeUpload">Upload Resume:</label>
+    <input type="file" id="resumeUpload" accept=".txt, .pdf" />
+
+    <button id="matchBtn">Match</button>
+
+    <h3>Results:</h3>
+    <div id="result"></div>
+    <div id="missingKeywords"></div>
+
+    <!-- Load matcher.js BEFORE popup.js -->
+    <script src="matcher.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
