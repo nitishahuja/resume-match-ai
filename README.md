@@ -85,9 +85,7 @@ resume-matcher-extension/
 
 ## 🚀 Future Enhancements
 
-- **Advanced AI Resume Optimization**: Enhance AI-powered suggestions for improving resumes.
-- **Smart Job Matching**: Suggest relevant job postings based on your resume.
-- **Improved UI/UX**: Provide a more intuitive and user-friendly experience.
+- **Capability for Multiple Websites**: Extend support to extract job descriptions from additional job boards and company career pages.
 - **Save and Track Matches**: Store match history for multiple job applications.
 
 ## 📜 License
