@@ -3,9 +3,9 @@ import {
   extractTextFromPDF,
   getActiveTab,
   getJobDescription,
-} from "./utils.js";
-import { analyzeWithAI } from "./ai.js";
-import { displayResults } from "./ui.js";
+} from "./utils/utils.js";
+import { analyzeWithAI } from "./utils/ai.js";
+import { displayResults } from "./utils/ui.js";
 
 // ✅ Load PDF.js and Resume from Storage on Startup
 document.addEventListener("DOMContentLoaded", async () => {

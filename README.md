@@ -22,13 +22,14 @@ resume-matcher-extension/
 │── popup.html         # UI for uploading resumes and viewing match results
 │── popup.js           # Handles user interactions
 │── styles.css         # Styling for the popup UI
-│── utils.js           # Utility functions
-│── ui.js              # Handles UI updates
-├── ai.js              # AI logic for resume matching
-├── prompts.js         # Stores AI prompts for analysis
 │── libs/              # External libraries (PDF processing, AI models, etc.)
 │    ├── pdf.min.js
 │    ├── pdf.worker.min.js
+│── utils/             # Utils
+│    │── utils.js      # Utility functions
+|    │── ui.js         # Handles UI updates
+|    ├── ai.js         # AI logic for resume matching
+|    ├── prompts.js    # Stores AI prompts for analysis
 │── assets/            # Icons and images
 │    ├── icon.png
 │── README.md          # Documentation
