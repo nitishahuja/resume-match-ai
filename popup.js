@@ -1,123 +1,94 @@
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("Popup loaded successfully");
+import {
+  loadPDFJS,
+  extractTextFromPDF,
+  getActiveTab,
+  getJobDescription,
+} from "./utils.js";
+import { analyzeWithAI } from "./ai.js";
+import { displayResults } from "./ui.js";
 
-  document.getElementById("matchBtn").addEventListener("click", () => {
-    console.log("Match button clicked");
+// ✅ Load PDF.js and API Key on startup
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("✅ Popup loaded successfully");
 
-    let fileInput = document.getElementById("resumeUpload");
+  await loadPDFJS();
 
+  chrome.runtime.sendMessage({ action: "getApiKey" }, (response) => {
+    if (response?.apiKey) {
+      window.OPENAI_API_KEY = response.apiKey;
+      console.log("🔑 API Key loaded successfully");
+    } else {
+      console.error("❌ API Key not found. Please set it.");
+      alert("API Key missing! Set it in extension settings.");
+    }
+  });
+
+  // ✅ Match Resume Button Click
+  document.getElementById("matchBtn").addEventListener("click", async () => {
+    console.log("🔍 Match button clicked");
+
+    const fileInput = document.getElementById("resumeUpload");
     if (fileInput.files.length === 0) {
-      console.log("No file selected");
       alert("Please upload your resume.");
       return;
     }
 
-    let file = fileInput.files[0];
-    console.log("File selected:", file.name);
+    const file = fileInput.files[0];
+    console.log("📄 File selected:", file.name);
 
-    let reader = new FileReader();
+    document.getElementById("loadingSpinner").style.display = "block";
 
-    reader.onload = function (event) {
-      let resumeText = event.target.result;
-      console.log("Resume file read successfully");
+    try {
+      // ✅ Extract Resume Text
+      const resumeText = await extractTextFromPDF(file);
+      console.log(
+        "✅ Extracted Resume Text:",
+        resumeText.substring(0, 300),
+        "..."
+      );
 
-      chrome.storage.local.set({ resumeData: resumeText }, () => {
-        console.log("Resume stored in chrome.storage.local");
-        injectContentScript();
-      });
-    };
+      // ✅ Store Resume in Chrome Storage
+      chrome.storage.local.set({ resumeData: resumeText });
 
-    reader.readAsText(file);
-  });
-
-  chrome.storage.local.get("resumeData", (data) => {
-    if (data.resumeData) {
-      console.log("Found stored resume data");
-      injectContentScript();
-    } else {
-      console.log("No stored resume data found");
-    }
-  });
-});
-
-function injectContentScript() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (!tabs.length) {
-      console.log("No active tab found.");
-      return;
-    }
-
-    console.log("Checking if content script is loaded...");
-
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: tabs[0].id },
-        func: () => typeof extractJobDescription !== "undefined",
-      },
-      (results) => {
-        if (!results || !results[0].result) {
-          console.log("Content script not found. Injecting manually...");
-          chrome.scripting.executeScript(
-            {
-              target: { tabId: tabs[0].id },
-              files: ["content.js"],
-            },
-            () => {
-              console.log("Content script injected. Sending message...");
-              sendJobDescriptionRequest(tabs[0].id);
-            }
-          );
-        } else {
-          console.log("Content script already loaded. Sending message...");
-          sendJobDescriptionRequest(tabs[0].id);
-        }
+      // ✅ Get Active Tab
+      const tab = await getActiveTab();
+      if (!tab) {
+        alert("No active tab found. Please open a job posting page.");
+        return;
       }
-    );
-  });
-}
 
-function sendJobDescriptionRequest(tabId) {
-  chrome.tabs.sendMessage(
-    tabId,
-    { action: "getJobDescription" },
-    (response) => {
-      if (!response || !response.jobDescription) {
-        console.log("Failed to retrieve job description.");
-        alert("Failed to extract job description. Please try again.");
+      // ✅ Fetch Job Description from Active Tab
+      const jobDescription = await getJobDescription(tab.id);
+      if (!jobDescription) {
+        alert(
+          "Failed to retrieve job description. Ensure you're on a job posting page."
+        );
         return;
       }
 
       console.log(
-        "Job description retrieved successfully:",
-        response.jobDescription
+        "✅ Job description retrieved:",
+        jobDescription.substring(0, 300),
+        "..."
       );
-      processResume(response.jobDescription);
-    }
-  );
-}
 
-function processResume(jobDescription) {
-  chrome.storage.local.get("resumeData", (data) => {
-    if (!data.resumeData) {
-      console.log("Resume data missing after retrieval attempt.");
-      alert("Resume data missing. Please re-upload.");
-      return;
-    }
+      // ✅ Analyze Resume & Fetch Everything (Match Score, Skills, & Resume Fixes)
+      const analysis = await analyzeWithAI(resumeText, jobDescription);
+      if (!analysis) {
+        alert("Failed to analyze resume. Please try again.");
+        return;
+      }
 
-    let matchResult = matchResumeWithJob(data.resumeData, jobDescription);
-    console.log("Match result computed:", matchResult);
+      // ✅ Display Everything in UI (Match Score, Skills, Resume Fixes)
+      displayResults(analysis);
 
-    document.getElementById(
-      "result"
-    ).innerText = `Match Score: ${matchResult.score}%`;
-
-    if (matchResult.missingWords.length > 0) {
-      document.getElementById(
-        "missingKeywords"
-      ).innerText = `Missing Keywords: ${matchResult.missingWords.join(", ")}`;
-    } else {
-      document.getElementById("missingKeywords").innerText =
-        "Your resume is a perfect match!";
+      // ✅ Store Missing Skills for Future Use
+      chrome.storage.local.set({ missingSkills: analysis.missing_skills });
+    } catch (error) {
+      console.error("❌ Error processing resume:", error);
+      alert("Failed to process the resume. Please try again.");
+    } finally {
+      document.getElementById("loadingSpinner").style.display = "none";
     }
   });
-}
+});

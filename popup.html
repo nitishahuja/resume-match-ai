@@ -1,23 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resume Matcher</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
-    <h1>Resume Matcher</h1>
+    <div class="container">
+      <!-- AI-Styled Header -->
+      <div class="header">
+        <img src="assets/icon.png" alt="AI Icon" class="ai-logo" />
+        <h1>Resume Matcher AI</h1>
+        <p class="subtext">Enhancing your resume with AI-powered insights</p>
+      </div>
 
-    <label for="resumeUpload">Upload Resume:</label>
-    <input type="file" id="resumeUpload" accept=".txt, .pdf" />
+      <!-- Resume Upload Section -->
+      <div class="upload-section">
+        <label for="resumeUpload" class="file-label">Upload Resume:</label>
+        <input type="file" id="resumeUpload" accept=".txt, .pdf" />
+        <button id="matchBtn">🔍 Match Resume</button>
+      </div>
 
-    <button id="matchBtn">Match</button>
+      <!-- Loading Animation -->
+      <div id="loadingSpinner" class="spinner" style="display: none"></div>
 
-    <h3>Results:</h3>
-    <div id="result"></div>
-    <div id="missingKeywords"></div>
+      <!-- Results Section -->
+      <div class="results-container">
+        <h3>Results:</h3>
+        <div id="matchScore" class="match-score">Match Score: --%</div>
 
-    <!-- Load matcher.js BEFORE popup.js -->
-    <script src="matcher.js"></script>
-    <script src="popup.js"></script>
+        <div class="keywords-section">
+          <h4>✅ Matched Keywords:</h4>
+          <ul id="matchedKeywords" class="matched-list"></ul>
+        </div>
+
+        <div class="keywords-section missing">
+          <h4>❌ Missing Keywords:</h4>
+          <ul id="missingKeywords" class="missing-list"></ul>
+        </div>
+      </div>
+
+      <!-- Resume Improvement Section -->
+      <textarea
+        id="updatedResume"
+        placeholder="Your improved resume will appear here..."
+      ></textarea>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>
+          Powered by AI |
+          <a href="https://yourwebsite.com" target="_blank">Learn More</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Ensure scripts load in correct order -->
+    <script src="libs/pdf.min.js"></script>
+    <script type="module" src="popup.js"></script>
   </body>
 </html>

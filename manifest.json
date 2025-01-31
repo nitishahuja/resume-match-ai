@@ -2,9 +2,9 @@
   "manifest_version": 3,
   "name": "Resume Matcher",
   "version": "1.0",
-  "description": "Matches your resume with the job posting open on your screen.",
-  "permissions": ["activeTab", "storage", "scripting"],
-  "host_permissions": ["https://www.linkedin.com/jobs/*"],
+  "description": "AI-powered resume matcher extension.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://api.openai.com/*", "*://*/*"],
   "background": {
     "service_worker": "background.js"
   },
@@ -16,16 +16,26 @@
       "128": "assets/icon.png"
     }
   },
-  "icons": {
-    "16": "assets/icon.png",
-    "48": "assets/icon.png",
-    "128": "assets/icon.png"
-  },
   "content_scripts": [
     {
-      "matches": ["*://www.linkedin.com/jobs/*"],
+      "matches": [
+        "*://*.linkedin.com/*jobs*",
+        "*://*.indeed.com/*viewjob*",
+        "*://*.glassdoor.com/*Job*",
+        "*://*.monster.com/*jobs*",
+        "*://*.ziprecruiter.com/*jobs*",
+        "*://*.workday.com/*job*",
+        "*://*/*job*",
+        "*://*/*career*"
+      ],
       "js": ["content.js"],
-      "run_at": "document_idle"
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["libs/*.js", "scripts/*.js"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
