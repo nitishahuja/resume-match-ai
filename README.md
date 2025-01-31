@@ -50,11 +50,11 @@ resume-matcher-extension/
 
    ```js
    // ✅ Set an initial API key (you can change this manually later)
-   chrome.storage.local.get("OPENAI_API_KEY", (data) => {
-     if (!data.OPENAI_API_KEY) {
+   chrome.storage.local.get("OPENROUTER_API_KEY", (data) => {
+     if (!data.OPENROUTER_API_KEY) {
        chrome.storage.local.set(
          {
-           OPENAI_API_KEY: "XXXXX",
+           OPENROUTER_API_KEY: "XXXXX",
          },
          () => {
            console.log("🔑 Default API Key stored.");

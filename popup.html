@@ -7,57 +7,67 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
-    <div class="container">
-      <!-- AI-Styled Header -->
-      <div class="header">
-        <img src="assets/icon.png" alt="AI Icon" class="ai-logo" />
-        <h1>Resume Matcher AI</h1>
-        <p class="subtext">Enhancing your resume with AI-powered insights</p>
-      </div>
+    <!-- AI-Styled Header with Inline Logo -->
+    <div class="header">
+      <img
+        src="assets/icon.png"
+        alt="AI Icon"
+        class="ai-logo"
+        style="
+          height: 40px;
+          width: 40px;
+          vertical-align: middle;
+          margin-right: 10px;
+        "
+      />
+      <h1 style="display: inline; font-size: 1.5em">Resume Matcher AI</h1>
+    </div>
+    <p class="subtext">Enhancing your resume with AI-powered insights</p>
 
-      <!-- Resume Upload Section -->
-      <div class="upload-section">
-        <label for="resumeUpload" class="file-label">Upload Resume:</label>
-        <input type="file" id="resumeUpload" accept=".txt, .pdf" />
-        <p id="resumeStatus">No resume uploaded</p>
-        <button id="changeResumeBtn" style="display: none">
-          Change Resume
-        </button>
-        <button id="matchBtn">🔍 Match Resume</button>
-      </div>
+    <!-- Resume Upload Section -->
+    <div class="upload-section">
+      <label for="resumeUpload" class="file-label">Upload Resume:</label>
+      <input type="file" id="resumeUpload" accept=".txt, .pdf" />
+      <p id="resumeStatus">No resume uploaded</p>
+      <button id="changeResumeBtn" style="display: none">Change Resume</button>
+      <button id="matchBtn">🔍 Match Resume</button>
+    </div>
 
-      <!-- Loading Animation -->
-      <div id="loadingSpinner" class="spinner" style="display: none"></div>
+    <!-- Loading Animation -->
+    <div id="loadingSpinner" class="spinner" style="display: none"></div>
 
-      <!-- Results Section -->
-      <div class="results-container">
-        <h3>Results:</h3>
-        <div id="matchScore" class="match-score">Match Score: --%</div>
+    <!-- Results Section -->
+    <h3>Results:</h3>
+    <div id="matchScore" class="match-score">Match Score: --%</div>
 
-        <div class="keywords-section">
-          <h4>✅ Matched Keywords:</h4>
-          <ul id="matchedKeywords" class="matched-list"></ul>
-        </div>
+    <div class="keywords-section">
+      <h4>✅ Matched Keywords:</h4>
+      <ul id="matchedKeywords" class="matched-list"></ul>
+    </div>
 
-        <div class="keywords-section missing">
-          <h4>❌ Missing Keywords:</h4>
-          <ul id="missingKeywords" class="missing-list"></ul>
-        </div>
-      </div>
+    <div class="keywords-section missing">
+      <h4>❌ Missing Keywords:</h4>
+      <ul id="missingKeywords" class="missing-list"></ul>
+    </div>
 
-      <!-- Resume Improvement Section -->
-      <textarea
-        id="updatedResume"
-        placeholder="Your improved resume will appear here..."
-      ></textarea>
+    <!-- Resume Improvement Section -->
+    <textarea
+      id="updatedResume"
+      placeholder="Your improved resume will appear here..."
+    ></textarea>
 
-      <!-- Footer -->
-      <div class="footer">
-        <p>
-          Powered by AI |
-          <a href="https://yourwebsite.com" target="_blank">Learn More</a>
-        </p>
-      </div>
+    <!-- Footer -->
+    <div class="footer">
+      <p>
+        Powered by
+        <a href="https://www.linkedin.com/in/nitishahuja" target="_blank"
+          >Nitish Ahuja</a
+        >
+        | <a href="https://nitishahuja.com/" target="_blank">Learn More</a> |
+        <a href="https://buymeacoffee.com/nitishahuja" target="_blank"
+          >☕ Buy Me a Coffee</a
+        >
+      </p>
     </div>
 
     <!-- Ensure scripts load in correct order -->
