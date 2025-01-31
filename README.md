@@ -15,29 +15,65 @@ Resume Match AI is a **Chrome extension** that helps job seekers analyze their r
 ## 📂 Project Structure
 
 ```
-resume-match-ai/
+resume-matcher-extension/
 │── manifest.json      # Chrome extension configuration
 │── background.js      # Handles extension lifecycle events
 │── content.js         # Extracts job descriptions from web pages
 │── popup.html         # UI for uploading resumes and viewing match results
 │── popup.js           # Handles user interactions
 │── styles.css         # Styling for the popup UI
-│── matcher.js         # Compares resume with job description
+│── utils.js           # Utility functions
+│── ui.js              # Handles UI updates
+│── libs/              # External libraries (PDF processing, AI models, etc.)
+│    ├── pdf.min.js
+│    ├── pdf.worker.min.js
+│    ├── prompts for analysis
 │── assets/            # Icons and images
+│    ├── icon.png
+│── README.md          # Documentation
+├── ai.js              # AI logic for resume matching
+├── prompts.js         # Stores AI prompts for analysis
 ```
 
 ## 🛠️ Installation
 
 1. **Clone the Repository**
+
    ```sh
-   git clone https://github.com/your-username/resume-match-ai.git
-   cd resume-match-ai
+   git clone https://github.com/your-username/resume-matcher-extension.git
+   cd resume-matcher-extension
    ```
-2. **Load the Extension in Chrome**
+
+2. **Integrate Your OpenAI API Key**
+
+   - Open `background.js` in a code editor.
+   - Replace `XXXXX` in the following section with your actual OpenAI API key:
+
+   ```js
+   // ✅ Set an initial API key (you can change this manually later)
+   chrome.storage.local.get("OPENAI_API_KEY", (data) => {
+     if (!data.OPENAI_API_KEY) {
+       chrome.storage.local.set(
+         {
+           OPENAI_API_KEY: "XXXXX",
+         },
+         () => {
+           console.log("🔑 Default API Key stored.");
+         }
+       );
+     } else {
+       console.log("✅ API Key already exists in storage.");
+     }
+   });
+   ```
+
+3. **Load the Extension in Chrome**
+
    - Open **Google Chrome** and go to `chrome://extensions/`.
    - Enable **Developer Mode** (toggle switch in the top right).
-   - Click **Load Unpacked** and select the `resume-match-ai/` folder.
-3. **Start Using**
+   - Click **Load Unpacked** and select the `resume-matcher-extension/` folder.
+
+4. **Start Using**
    - Visit a job posting website (LinkedIn, Indeed, etc.).
    - Click the **Resume Match AI** extension icon.
    - Upload your resume and get a match score!
@@ -50,9 +86,9 @@ resume-match-ai/
 
 ## 🚀 Future Enhancements
 
-- **AI-Powered Resume Suggestions**: Recommend changes for better job matches.
-- **PDF Parsing**: Extract text from PDF resumes automatically.
-- **Industry-Specific Keyword Suggestions**: Improve keyword analysis based on job sector.
+- **Advanced AI Resume Optimization**: Enhance AI-powered suggestions for improving resumes.
+- **Smart Job Matching**: Suggest relevant job postings based on your resume.
+- **Improved UI/UX**: Provide a more intuitive and user-friendly experience.
 - **Save and Track Matches**: Store match history for multiple job applications.
 
 ## 📜 License
@@ -65,7 +101,7 @@ Contributions are welcome! Feel free to **fork** this repo and submit a pull req
 
 ## 📬 Contact
 
-For questions, reach out via [GitHub Issues](https://github.com/your-username/resume-match-ai/issues).
+For questions, reach out via [GitHub Issues](https://github.com/your-username/resume-matcher-extension/issues).
 
 ---
 

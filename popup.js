@@ -7,7 +7,7 @@ import {
 import { analyzeWithAI } from "./ai.js";
 import { displayResults } from "./ui.js";
 
-// ✅ Load PDF.js and API Key on startup
+// ✅ Load PDF.js and Resume from Storage on Startup
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ Popup loaded successfully");
 
@@ -23,41 +23,95 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  // ✅ Restore last uploaded resume if available
+  chrome.storage.local.get(["resumeData", "resumeFileName"], (data) => {
+    if (data.resumeData) {
+      console.log("📄 Restoring saved resume...");
+      document.getElementById(
+        "resumeStatus"
+      ).innerText = `✅ Resume Loaded: ${data.resumeFileName}`;
+      document.getElementById("resumeUpload").disabled = true; // Disable upload initially
+      document.getElementById("changeResumeBtn").style.display = "block"; // Show change button
+    }
+  });
+
+  // ✅ Change Resume Button Click - Allow Uploading a New File
+  document.getElementById("changeResumeBtn").addEventListener("click", () => {
+    document.getElementById("resumeUpload").disabled = false;
+    document.getElementById("resumeUpload").value = ""; // Reset input
+    document.getElementById("resumeStatus").innerText = "Upload a new resume:";
+    document.getElementById("changeResumeBtn").style.display = "none"; // Hide change button
+  });
+
   // ✅ Match Resume Button Click
   document.getElementById("matchBtn").addEventListener("click", async () => {
     console.log("🔍 Match button clicked");
 
     const fileInput = document.getElementById("resumeUpload");
-    if (fileInput.files.length === 0) {
+
+    if (!fileInput.disabled && fileInput.files.length === 0) {
       alert("Please upload your resume.");
       return;
     }
 
     const file = fileInput.files[0];
-    console.log("📄 File selected:", file.name);
+
+    if (file) {
+      console.log("📄 File selected:", file.name);
+    } else {
+      console.log("📄 Using stored resume from previous session.");
+    }
 
     document.getElementById("loadingSpinner").style.display = "block";
 
     try {
-      // ✅ Extract Resume Text
-      const resumeText = await extractTextFromPDF(file);
-      console.log(
-        "✅ Extracted Resume Text:",
-        resumeText.substring(0, 300),
-        "..."
-      );
+      let resumeText;
+      let resumeFileName;
 
-      // ✅ Store Resume in Chrome Storage
-      chrome.storage.local.set({ resumeData: resumeText });
+      if (file) {
+        resumeText = await extractTextFromPDF(file);
+        resumeFileName = file.name;
 
-      // ✅ Get Active Tab
+        console.log(
+          "✅ Extracted Resume Text:",
+          resumeText.substring(0, 300),
+          "..."
+        );
+
+        // ✅ Store resume in Chrome Storage for persistence
+        chrome.storage.local.set(
+          { resumeData: resumeText, resumeFileName },
+          () => {
+            console.log("✅ Resume stored for future use.");
+          }
+        );
+
+        document.getElementById(
+          "resumeStatus"
+        ).innerText = `✅ Resume Loaded: ${resumeFileName}`;
+        document.getElementById("resumeUpload").disabled = true; // Disable upload
+        document.getElementById("changeResumeBtn").style.display = "block"; // Show change button
+      } else {
+        // ✅ Load stored resume if no new file is uploaded
+        const storedData = await new Promise((resolve) =>
+          chrome.storage.local.get(["resumeData", "resumeFileName"], resolve)
+        );
+
+        if (!storedData.resumeData) {
+          alert("No resume available. Please upload one.");
+          return;
+        }
+
+        resumeText = storedData.resumeData;
+        resumeFileName = storedData.resumeFileName;
+      }
+
       const tab = await getActiveTab();
       if (!tab) {
         alert("No active tab found. Please open a job posting page.");
         return;
       }
 
-      // ✅ Fetch Job Description from Active Tab
       const jobDescription = await getJobDescription(tab.id);
       if (!jobDescription) {
         alert(
@@ -72,18 +126,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         "..."
       );
 
-      // ✅ Analyze Resume & Fetch Everything (Match Score, Skills, & Resume Fixes)
       const analysis = await analyzeWithAI(resumeText, jobDescription);
       if (!analysis) {
         alert("Failed to analyze resume. Please try again.");
         return;
       }
 
-      // ✅ Display Everything in UI (Match Score, Skills, Resume Fixes)
       displayResults(analysis);
-
-      // ✅ Store Missing Skills for Future Use
-      chrome.storage.local.set({ missingSkills: analysis.missing_skills });
     } catch (error) {
       console.error("❌ Error processing resume:", error);
       alert("Failed to process the resume. Please try again.");
