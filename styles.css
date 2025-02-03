@@ -9,37 +9,70 @@ body {
   background: linear-gradient(135deg, #2a2d37, #333945);
   color: #e0e0e0;
   border-radius: 12px;
-}
-
-/* Main Container */
-.container {
-  background: rgba(255, 255, 255, 0.12);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
   text-align: center;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Title */
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
 h1 {
   font-size: 20px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   color: #e0e0e0;
   font-weight: 500;
 }
 
-/* File Upload Label */
-.file-label {
-  display: block;
-  font-weight: 400;
-  margin-top: 10px;
-  font-size: 14px;
-  color: #c5c5c5;
+/* Match Resume Button (Primary) */
+.primary-btn {
+  background: linear-gradient(135deg, #5c5edc, #8387ff);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  cursor: pointer;
+  margin-top: 15px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
 }
 
-/* File Input */
+.primary-btn:hover {
+  background: linear-gradient(135deg, #6d6fee, #5c5edc);
+  transform: scale(1.05);
+}
+
+.primary-btn:active {
+  transform: scale(0.98);
+}
+
+/* Small Actions (Change API Key & Change Resume) */
+.side-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.side-actions a {
+  color: #ffd700; /* Matches footer link color */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.side-actions a:hover {
+  color: #fff; /* Brightens text when hovered for better contrast */
+  text-decoration: underline;
+}
+
+/* File Upload */
 input[type="file"] {
   display: block;
   margin: 10px auto;
@@ -52,30 +85,6 @@ input[type="file"] {
   text-align: center;
   width: 90%;
   cursor: pointer;
-}
-
-/* Match Button */
-button {
-  background: linear-gradient(135deg, #5c5edc, #8387ff);
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  cursor: pointer;
-  margin-top: 12px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all 0.3s ease-in-out;
-  width: 100%;
-}
-
-button:hover {
-  background: linear-gradient(135deg, #6d6fee, #5c5edc);
-  transform: scale(1.05);
-}
-
-button:active {
-  transform: scale(0.98);
 }
 
 /* Loading Spinner */
@@ -171,29 +180,6 @@ button:active {
   font-family: "Poppins", sans-serif;
 }
 
-/* Smooth Transitions */
-button,
-input,
-textarea {
-  transition: all 0.2s ease-in-out;
-}
-
-/* Footer Styling */
-.footer {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 14px;
-  color: #f8f8f8;
-}
-.footer a {
-  color: #ffd700;
-  text-decoration: none;
-  font-weight: 500;
-}
-.footer a:hover {
-  text-decoration: underline;
-}
-
 /* API Key Input Styling */
 #apiKeySection {
   text-align: center;
@@ -247,4 +233,22 @@ textarea {
   margin-top: 10px;
   font-size: 13px;
   color: #ffd700;
+}
+
+/* Footer Styling */
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #f8f8f8;
+}
+
+.footer a {
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }

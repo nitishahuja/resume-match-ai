@@ -34,14 +34,22 @@
       <p id="apiKeyStatus"></p>
     </div>
 
-    <!-- Resume Upload Section (Hidden until API Key is set) -->
+    <!-- Resume Upload Section -->
     <div id="resumeSection" style="display: none">
       <label for="resumeUpload" class="file-label">Upload Resume:</label>
       <input type="file" id="resumeUpload" accept=".txt, .pdf" />
       <p id="resumeStatus">No resume uploaded</p>
-      <button id="changeResumeBtn" style="display: none">Change Resume</button>
-      <button id="matchBtn">🔍 Match Resume</button>
-      <button id="updateApiKey">🔑 Change API Key</button>
+
+      <!-- Match Resume (Primary Button) -->
+      <button id="matchBtn" class="primary-btn">🔍 Match Resume</button>
+
+      <!-- Small side links for Change API Key & Change Resume -->
+      <div class="side-actions">
+        <a href="#" id="updateApiKey">🔑 Change API Key</a>
+        <a href="#" id="changeResumeBtn" style="display: none"
+          >📄 Change Resume</a
+        >
+      </div>
     </div>
 
     <!-- Loading Animation -->

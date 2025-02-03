@@ -19,6 +19,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   const updateApiKeyBtn = document.getElementById("updateApiKey");
   const apiKeyStatus = document.getElementById("apiKeyStatus");
 
+  const resumeUpload = document.getElementById("resumeUpload");
+  const resumeStatus = document.getElementById("resumeStatus");
+  const changeResumeBtn = document.getElementById("changeResumeBtn");
+  const loadingSpinner = document.getElementById("loadingSpinner");
+  const matchBtn = document.getElementById("matchBtn");
+
+  // ✅ Restore stored resume on extension load
+  async function restoreStoredResume() {
+    try {
+      const storedData = await chrome.storage.local.get([
+        "resumeData",
+        "resumeFileName",
+      ]);
+      if (storedData.resumeData && storedData.resumeFileName) {
+        console.log("📄 Restoring saved resume:", storedData.resumeFileName);
+        resumeStatus.innerText = `✅ Resume Loaded: ${storedData.resumeFileName}`;
+        resumeUpload.disabled = true;
+        changeResumeBtn.style.display = "block";
+      } else {
+        console.log("❌ No stored resume found.");
+        resumeStatus.innerText = "No resume uploaded";
+        changeResumeBtn.style.display = "none";
+      }
+    } catch (error) {
+      console.error("❌ Error retrieving stored resume:", error);
+      resumeStatus.innerText = "❌ Error fetching resume. Try uploading again.";
+    }
+  }
+
   // ✅ Check if API key exists
   async function checkApiKey() {
     try {
@@ -26,12 +55,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (data.OPENAI_API_KEY) {
         console.log("🔑 API Key Found:", data.OPENAI_API_KEY);
         window.OPENAI_API_KEY = data.OPENAI_API_KEY;
-        apiKeySection.style.display = "none"; // Hide API input
-        resumeSection.style.display = "block"; // Show Resume Upload UI
+        apiKeySection.style.display = "none";
+        resumeSection.style.display = "block";
       } else {
         console.log("❌ No API Key Found: Prompting User for Input");
-        apiKeySection.style.display = "block"; // Show API input
-        resumeSection.style.display = "none"; // Hide Resume Upload UI
+        apiKeySection.style.display = "block";
+        resumeSection.style.display = "none";
       }
     } catch (error) {
       console.error("❌ Error retrieving API Key:", error);
@@ -39,6 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   await checkApiKey();
+  await restoreStoredResume();
 
   // ✅ Save API Key when user enters it
   saveApiKeyBtn.addEventListener("click", async () => {
@@ -53,8 +83,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.log("✅ API Key Saved Successfully");
       apiKeyStatus.textContent = "✅ API Key Saved";
       window.OPENAI_API_KEY = key;
-      apiKeySection.style.display = "none"; // Hide API input
-      resumeSection.style.display = "block"; // Show Resume Upload UI
+      apiKeySection.style.display = "none";
+      resumeSection.style.display = "block";
     } catch (error) {
       console.error("❌ Failed to Save API Key:", error);
       apiKeyStatus.textContent = "❌ Error saving API Key.";
@@ -67,92 +97,87 @@ document.addEventListener("DOMContentLoaded", async () => {
       await chrome.storage.local.remove("OPENAI_API_KEY");
       console.log("🔑 API Key Removed. Prompting for new key.");
       window.OPENAI_API_KEY = null;
-      apiKeySection.style.display = "block"; // Show API Key input
-      resumeSection.style.display = "none"; // Hide Resume Upload UI
+      apiKeySection.style.display = "block";
+      resumeSection.style.display = "none";
     } catch (error) {
       console.error("❌ Error removing API Key:", error);
     }
   });
 
-  // ✅ Ensure API key exists before running Match
-  document.getElementById("matchBtn").addEventListener("click", async () => {
+  // ✅ Handle Resume Upload
+  resumeUpload.addEventListener("change", async () => {
+    const file = resumeUpload.files[0];
+    if (!file) return;
+
+    console.log("📄 File selected:", file.name);
+    loadingSpinner.style.display = "block";
+
     try {
-      const data = await chrome.storage.local.get("OPENAI_API_KEY");
+      const resumeText = await extractTextFromPDF(file);
+      console.log(
+        "✅ Extracted Resume Text:",
+        resumeText.substring(0, 300),
+        "..."
+      );
+
+      await chrome.storage.local.set({
+        resumeData: resumeText,
+        resumeFileName: file.name,
+      });
+
+      console.log("✅ Resume stored for future use.");
+      resumeStatus.innerText = `✅ Resume Loaded: ${file.name}`;
+      resumeUpload.disabled = true;
+      changeResumeBtn.style.display = "block";
+    } catch (error) {
+      console.error("❌ Error extracting resume:", error);
+      alert("Failed to process the resume. Please try again.");
+    } finally {
+      loadingSpinner.style.display = "none";
+    }
+  });
+
+  // ✅ Change Resume Button Click
+  changeResumeBtn.addEventListener("click", async () => {
+    await chrome.storage.local.remove(["resumeData", "resumeFileName"]);
+    console.log("📄 Resume cleared.");
+    resumeStatus.innerText = "No resume uploaded";
+    resumeUpload.disabled = false;
+    resumeUpload.value = "";
+    changeResumeBtn.style.display = "none";
+  });
+
+  // ✅ Match Resume Button Click
+  matchBtn.addEventListener("click", async () => {
+    try {
+      const data = await chrome.storage.local.get([
+        "OPENAI_API_KEY",
+        "resumeData",
+        "resumeFileName",
+      ]);
       if (!data.OPENAI_API_KEY) {
-        alert(
-          "❌ API Key not set. Please enter your OpenAI API Key in settings."
-        );
+        alert("❌ API Key not set. Please enter your OpenAI API Key.");
         return;
       }
+      if (!data.resumeData) {
+        alert("❌ No resume available. Please upload one.");
+        return;
+      }
+
       window.OPENAI_API_KEY = data.OPENAI_API_KEY;
 
       console.log("🔍 Match button clicked");
-
-      const fileInput = document.getElementById("resumeUpload");
-
-      if (!fileInput.disabled && fileInput.files.length === 0) {
-        alert("Please upload your resume.");
-        return;
-      }
-
-      const file = fileInput.files[0];
-
-      if (file) {
-        console.log("📄 File selected:", file.name);
-      } else {
-        console.log("📄 Using stored resume from previous session.");
-      }
-
-      document.getElementById("loadingSpinner").style.display = "block";
-
-      let resumeText;
-      let resumeFileName;
-
-      if (file) {
-        resumeText = await extractTextFromPDF(file);
-        resumeFileName = file.name;
-
-        console.log(
-          "✅ Extracted Resume Text:",
-          resumeText.substring(0, 300),
-          "..."
-        );
-
-        await chrome.storage.local.set({
-          resumeData: resumeText,
-          resumeFileName,
-        });
-        console.log("✅ Resume stored for future use.");
-
-        document.getElementById(
-          "resumeStatus"
-        ).innerText = `✅ Resume Loaded: ${resumeFileName}`;
-        document.getElementById("resumeUpload").disabled = true; // Disable upload
-        document.getElementById("changeResumeBtn").style.display = "block"; // Show change button
-      } else {
-        const storedData = await chrome.storage.local.get([
-          "resumeData",
-          "resumeFileName",
-        ]);
-        if (!storedData.resumeData) {
-          alert("No resume available. Please upload one.");
-          return;
-        }
-        resumeText = storedData.resumeData;
-        resumeFileName = storedData.resumeFileName;
-      }
+      loadingSpinner.style.display = "block";
 
       const tab = await getActiveTab();
       if (!tab) {
-        alert("No active tab found. Please open a job posting page.");
+        alert("❌ No active tab found. Please open a job posting page.");
         return;
       }
 
       const jobDescription = await getJobDescription(tab.id);
       if (!jobDescription) {
-        alert(
-          "Failed to retrieve job description. Ensure you're on a job posting page."
-        );
+        alert("❌ Failed to retrieve job description.");
         return;
       }
 
@@ -162,18 +187,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         "..."
       );
 
-      const analysis = await analyzeWithAI(resumeText, jobDescription);
+      const analysis = await analyzeWithAI(data.resumeData, jobDescription);
       if (!analysis) {
-        alert("Failed to analyze resume. Please try again.");
+        alert("❌ Failed to analyze resume. Please try again.");
         return;
       }
 
       displayResults(analysis);
     } catch (error) {
       console.error("❌ Error processing resume:", error);
-      alert("Failed to process the resume. Please try again.");
+      alert("❌ Failed to process the resume. Please try again.");
     } finally {
-      document.getElementById("loadingSpinner").style.display = "none";
+      loadingSpinner.style.display = "none";
     }
   });
 });
