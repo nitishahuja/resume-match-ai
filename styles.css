@@ -193,3 +193,58 @@ textarea {
 .footer a:hover {
   text-decoration: underline;
 }
+
+/* API Key Input Styling */
+#apiKeySection {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+}
+
+#apiKeyInput {
+  width: 90%;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #e0e0e0;
+  outline: none;
+  text-align: center;
+}
+
+#apiKeyInput::placeholder {
+  color: #bbb;
+  text-align: center;
+}
+
+#saveApiKey {
+  background: linear-gradient(135deg, #28a745, #32cd32);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#saveApiKey:hover {
+  background: linear-gradient(135deg, #32cd32, #28a745);
+  transform: scale(1.05);
+}
+
+#saveApiKey:active {
+  transform: scale(0.98);
+}
+
+#apiKeyStatus {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #ffd700;
+}

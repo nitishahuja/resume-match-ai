@@ -24,13 +24,24 @@
     </div>
     <p class="subtext">Enhancing your resume with AI-powered insights</p>
 
-    <!-- Resume Upload Section -->
-    <div class="upload-section">
+    <!-- API Key Input Section (Only visible if key is missing) -->
+    <div id="apiKeySection">
+      <label for="apiKeyInput" class="file-label"
+        >Enter Your OpenAI API Key:</label
+      >
+      <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxx" />
+      <button id="saveApiKey">Save Key</button>
+      <p id="apiKeyStatus"></p>
+    </div>
+
+    <!-- Resume Upload Section (Hidden until API Key is set) -->
+    <div id="resumeSection" style="display: none">
       <label for="resumeUpload" class="file-label">Upload Resume:</label>
       <input type="file" id="resumeUpload" accept=".txt, .pdf" />
       <p id="resumeStatus">No resume uploaded</p>
       <button id="changeResumeBtn" style="display: none">Change Resume</button>
       <button id="matchBtn">🔍 Match Resume</button>
+      <button id="updateApiKey">🔑 Change API Key</button>
     </div>
 
     <!-- Loading Animation -->
