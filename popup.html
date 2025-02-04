@@ -56,24 +56,39 @@
     <div id="loadingSpinner" class="spinner" style="display: none"></div>
 
     <!-- Results Section -->
-    <h3>Results:</h3>
-    <div id="matchScore" class="match-score">Match Score: --%</div>
-
-    <div class="keywords-section">
-      <h4>✅ Matched Keywords:</h4>
-      <ul id="matchedKeywords" class="matched-list"></ul>
+    <div class="results-container">
+      <h3>📊 Match Score</h3>
+      <div id="matchScore" class="match-score">--%</div>
     </div>
 
-    <div class="keywords-section missing">
-      <h4>❌ Missing Keywords:</h4>
-      <ul id="missingKeywords" class="missing-list"></ul>
+    <!-- Matched & Missing Skills Section -->
+    <div class="keywords-container">
+      <div class="keywords-section">
+        <h4>✅ Matched Skills</h4>
+        <ul id="matchedKeywords" class="matched-list"></ul>
+      </div>
+
+      <div class="keywords-section missing">
+        <h4>❌ Missing Skills</h4>
+        <ul id="missingKeywords" class="missing-list"></ul>
+      </div>
     </div>
 
-    <!-- Resume Improvement Section -->
-    <textarea
-      id="updatedResume"
-      placeholder="Your improved resume will appear here..."
-    ></textarea>
+    <!-- Resume Snippet Modifications -->
+    <div class="resume-improvements">
+      <h3>📌 Resume Snippet Improvements</h3>
+      <div id="resumeSnippets">
+        <p>No suggestions yet.</p>
+      </div>
+    </div>
+
+    <!-- Insights Section -->
+    <div class="insights-section">
+      <h3>💡 Key Insights</h3>
+      <ul id="resumeInsights">
+        <li>No insights available.</li>
+      </ul>
+    </div>
 
     <!-- Footer -->
     <div class="footer">

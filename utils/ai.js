@@ -22,7 +22,6 @@ export const analyzeWithAI = async (resumeText, jobDescription) => {
           { role: "user", content: `Job Description: "${jobDescription}"` },
           { role: "user", content: `Resume: "${resumeText}"` },
         ],
-        max_tokens: 400,
       }),
     });
 

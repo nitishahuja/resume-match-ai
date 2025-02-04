@@ -50,6 +50,12 @@ function extractJobDescription() {
     ".job_description",
     // Workday
     ".WDDF",
+    // Greenhouse.io
+    "div.job_description",
+    "section.job-description",
+    "#content div p",
+    "#content div",
+    "div#content",
     // Generic (catch-all)
     "[class*='job-description']",
     "[class*='jobDescription']",

@@ -21,7 +21,8 @@
       "matches": [
         "*://*.linkedin.com/*jobs*",
         "*://*.indeed.com/*viewjob*",
-        "*://*.glassdoor.com/*Job*",
+        "*://*.greenhouse.com/*jobs*",
+        "*://*.greenhouse.io/*",
         "*://*.monster.com/*jobs*",
         "*://*.ziprecruiter.com/*jobs*",
         "*://*.workday.com/*job*",

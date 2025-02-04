@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         "resumeData",
         "resumeFileName",
       ]);
+      console.log("🔍 Matching process initiated with data:", data);
       if (!data.OPENAI_API_KEY) {
         alert("❌ API Key not set. Please enter your OpenAI API Key.");
         return;
