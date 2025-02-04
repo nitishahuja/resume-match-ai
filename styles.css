@@ -252,3 +252,44 @@ input[type="file"] {
 .footer a:hover {
   text-decoration: underline;
 }
+
+/* Resume Snippet Modifications & Insights - Read-Only Textareas */
+.readonly-text {
+  width: 95%;
+  height: 120px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e0e0e0;
+  resize: none;
+  font-family: "Poppins", sans-serif;
+  text-align: left;
+  overflow-y: auto;
+  white-space: pre-wrap; /* Preserves formatting for better readability */
+}
+
+/* Copy Buttons */
+.copy-btn {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin-top: 6px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.copy-btn:hover {
+  background: linear-gradient(135deg, #66bb6a, #388e3c);
+  transform: scale(1.05);
+}
+
+.copy-btn:active {
+  transform: scale(0.98);
+}

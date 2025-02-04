@@ -202,4 +202,29 @@ document.addEventListener("DOMContentLoaded", async () => {
       loadingSpinner.style.display = "none";
     }
   });
+
+  document
+    .getElementById("copyResumeSnippets")
+    .addEventListener("click", () => {
+      const snippetsText = document.getElementById("resumeSnippets").value;
+      if (snippetsText.trim()) {
+        navigator.clipboard.writeText(snippetsText).then(() => {
+          alert("📋 Resume Snippets copied to clipboard!");
+        });
+      } else {
+        alert("❌ No resume snippets available to copy.");
+      }
+    });
+
+  // ✅ Copy Insights to Clipboard
+  document.getElementById("copyInsights").addEventListener("click", () => {
+    const insightsText = document.getElementById("resumeInsights").value;
+    if (insightsText.trim()) {
+      navigator.clipboard.writeText(insightsText).then(() => {
+        alert("📋 Insights copied to clipboard!");
+      });
+    } else {
+      alert("❌ No insights available to copy.");
+    }
+  });
 });

@@ -18,29 +18,26 @@ export const displayResults = (analysis) => {
     .map((skill) => `<li>${skill}</li>`)
     .join("");
 
-  // ✅ Update Resume Snippet Improvements
+  // ✅ Update Resume Snippet Modifications (Using TextArea)
   const snippetsContainer = document.getElementById("resumeSnippets");
   if (analysis.optimized_resume && analysis.optimized_resume.length > 0) {
-    snippetsContainer.innerHTML = analysis.optimized_resume
+    snippetsContainer.value = analysis.optimized_resume
       .map(
-        (snippet) => `
-        <div class="snippet">
-          <p><strong>🔴 Original:</strong> ${snippet.original}</p>
-          <p><strong>🟢 Improved:</strong> ${snippet.improved}</p>
-        </div>`
+        (snippet) =>
+          `🔴 Original: ${snippet.original}\n🟢 Improved: ${snippet.improved}\n\n`
       )
       .join("");
   } else {
-    snippetsContainer.innerHTML = "<p>No resume modifications suggested.</p>";
+    snippetsContainer.value = "No resume modifications suggested.";
   }
 
-  // ✅ Update Insights Section
-  const insightsList = document.getElementById("resumeInsights");
+  // ✅ Update Insights Section (Using TextArea)
+  const insightsContainer = document.getElementById("resumeInsights");
   if (analysis.insights && analysis.insights.length > 0) {
-    insightsList.innerHTML = analysis.insights
-      .map((insight) => `<li>${insight}</li>`)
-      .join("");
+    insightsContainer.value = analysis.insights
+      .map((insight) => `💡 ${insight}`)
+      .join("\n\n");
   } else {
-    insightsList.innerHTML = "<li>No insights available.</li>";
+    insightsContainer.value = "No insights available.";
   }
 };
