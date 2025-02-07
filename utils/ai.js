@@ -15,7 +15,7 @@ export const analyzeWithAI = async (resumeText, jobDescription) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4",
+        model: "gpt-4o-mini",
         max_tokens: 1000,
         messages: [
           { role: "system", content: OPENAI_PROMPT },

@@ -1,12 +1,21 @@
 {
   "manifest_version": 3,
   "name": "Resume Matcher",
-  "version": "1.0",
+  "version": "1.1",
   "description": "AI-powered resume matcher extension.",
-  "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": ["https://api.openai.com/*", "*://*/*"],
+  "permissions": ["storage", "scripting"],
+  "host_permissions": [
+    "https://api.openai.com/*",
+    "https://www.linkedin.com/*",
+    "https://www.indeed.com/*",
+    "https://www.greenhouse.io/*",
+    "https://www.monster.com/*",
+    "https://www.ziprecruiter.com/*",
+    "https://www.workday.com/*"
+  ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "action": {
     "default_popup": "popup.html",
@@ -21,13 +30,10 @@
       "matches": [
         "*://*.linkedin.com/*jobs*",
         "*://*.indeed.com/*viewjob*",
-        "*://*.greenhouse.com/*jobs*",
         "*://*.greenhouse.io/*",
         "*://*.monster.com/*jobs*",
         "*://*.ziprecruiter.com/*jobs*",
-        "*://*.workday.com/*job*",
-        "*://*/*job*",
-        "*://*/*career*"
+        "*://*.workday.com/*job*"
       ],
       "js": ["content.js"],
       "run_at": "document_end"
@@ -35,8 +41,8 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["libs/*.js", "scripts/*.js"],
-      "matches": ["<all_urls>"]
+      "resources": ["libs/pdf.min.js"],
+      "matches": ["chrome-extension://*/popup.html"]
     }
   ]
 }
