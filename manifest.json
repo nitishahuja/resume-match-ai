@@ -60,7 +60,7 @@
     "https://www.levels.fyi/jobs/*",
     "https://jobright.ai/jobs/info/*",
     "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions/*",
-    "https://northeastern.joinhandshake.com/stu/postings/*",
+    "https://*.joinhandshake.com/stu/postings/*",
     "https://www.wayup.com/*",
     "https://www.roberthalf.com/*",
     "https://www.ladders.com/*",
