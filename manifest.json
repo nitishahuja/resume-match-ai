@@ -118,7 +118,7 @@
   "web_accessible_resources": [
     {
       "resources": ["libs/pdf.min.js"],
-      "matches": ["chrome-extension://*/popup.html"]
+      "matches": ["<all_urls>"]
     }
   ]
 }
