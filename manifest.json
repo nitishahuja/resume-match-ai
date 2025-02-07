@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Resume Matcher",
-  "version": "1.2",
+  "version": "1.3",
   "description": "AI-powered resume matcher extension for job applications.",
   "permissions": ["storage", "scripting"],
   "host_permissions": [
@@ -49,7 +49,15 @@
     "https://www.fiverr.com/*",
     "https://www.freelancer.com/*",
     "https://www.toptal.com/*",
-    "https://www.peopleperhour.com/*"
+    "https://www.peopleperhour.com/*",
+    "https://www.ycombinator.com/companies/safetykit/jobs/*",
+    "https://wellfound.com/jobs*",
+    "https://northeastern.joinhandshake.com/stu/postings/*",
+    "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions/*",
+    "https://jobright.ai/jobs/info/*",
+    "https://www.google.com/about/careers/applications/jobs/results/*",
+    "https://simplify.jobs/p/*",
+    "https://www.levels.fyi/jobs/title/software-engineer/location/united-states/level/entry*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -109,7 +117,15 @@
         "*://*.fiverr.com/*",
         "*://*.freelancer.com/*",
         "*://*.toptal.com/*",
-        "*://*.peopleperhour.com/*"
+        "*://*.peopleperhour.com/*",
+        "*://www.ycombinator.com/companies/safetykit/jobs/*",
+        "*://wellfound.com/jobs*",
+        "*://northeastern.joinhandshake.com/stu/postings/*",
+        "*://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions/*",
+        "*://jobright.ai/jobs/info/*",
+        "*://www.google.com/about/careers/applications/jobs/results/*",
+        "*://simplify.jobs/p/*",
+        "*://www.levels.fyi/jobs/title/software-engineer/location/united-states/level/entry*"
       ],
       "js": ["content.js"],
       "run_at": "document_end"
