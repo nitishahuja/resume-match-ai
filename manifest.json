@@ -80,7 +80,8 @@
     "https://www.automattic.com/work-with-us/*",
     "https://www.breezy.hr/*",
     "https://www.techcareers.com/*",
-    "https://www.workatastartup.com/jobs/*"
+    "https://www.workatastartup.com/jobs/*",
+    "https://*.symplicity.com/students/app/jobs/detail/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -137,7 +138,8 @@
         "*://hiring.cafe/*",
         "*://leethub.io/jobs/*",
         "*://www.coinbase.com/careers/positions*",
-        "*://jobs.sap.com/job/*"
+        "*://jobs.sap.com/job/*",
+        "https://*.symplicity.com/students/app/jobs/detail/*"
       ],
       "js": ["content.js"],
       "run_at": "document_end"
