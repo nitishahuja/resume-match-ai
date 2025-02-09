@@ -2,9 +2,16 @@ export const displayResults = (analysis) => {
   console.log("🎯 Displaying Analysis Results:", analysis);
 
   // ✅ Update Match Score
-  document.getElementById(
-    "matchScore"
-  ).innerText = `Match Score: ${analysis.match_score}%`;
+  const matchScore = analysis.match_score;
+  document.getElementById("matchScore").innerText = `${matchScore}%`;
+
+  // ✅ Get Match Category and Recommendation
+  const { category, emoji, cssClass } = getMatchRecommendation(matchScore);
+
+  // ✅ Update Match Category with Icon
+  const matchCategoryElement = document.getElementById("matchCategory");
+  matchCategoryElement.innerHTML = `${emoji} <strong>${category}</strong>`;
+  matchCategoryElement.className = `match-category ${cssClass}`;
 
   // ✅ Update Matched Keywords
   const matchedList = document.getElementById("matchedKeywords");
@@ -41,3 +48,34 @@ export const displayResults = (analysis) => {
     insightsContainer.value = "No insights available.";
   }
 };
+
+/**
+ * Function to determine match recommendation based on score
+ */
+function getMatchRecommendation(score) {
+  if (score >= 90) {
+    return {
+      category: "Excellent Fit",
+      emoji: "🔥",
+      cssClass: "excellent",
+    };
+  } else if (score >= 75) {
+    return {
+      category: "Good Fit",
+      emoji: "✅",
+      cssClass: "good",
+    };
+  } else if (score >= 60) {
+    return {
+      category: "Moderate Fit",
+      emoji: "⚠️",
+      cssClass: "moderate",
+    };
+  } else {
+    return {
+      category: "Weak Fit",
+      emoji: "❌",
+      cssClass: "weak",
+    };
+  }
+}

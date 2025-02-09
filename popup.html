@@ -55,10 +55,15 @@
     <!-- Loading Animation -->
     <div id="loadingSpinner" class="spinner" style="display: none"></div>
 
-    <!-- Results Section -->
+    <!-- RESULTS SECTION -->
     <div class="results-container">
-      <h3>📊 Match Score</h3>
-      <div id="matchScore" class="match-score">--%</div>
+      <h2>📊 Match Score & Fit Recommendation</h2>
+
+      <!-- Score Display -->
+      <div id="matchScoreContainer">
+        <div id="matchScore" class="match-score">--%</div>
+        <div id="matchCategory" class="match-category">No analysis yet</div>
+      </div>
     </div>
 
     <!-- Matched & Missing Skills Section -->
@@ -78,8 +83,8 @@
     <div class="resume-improvements">
       <h3>📌 Resume Snippet Improvements</h3>
       <textarea id="resumeSnippets" class="readonly-text" readonly>
-No suggestions yet.
-      </textarea>
+No suggestions yet.</textarea
+      >
       <button id="copyResumeSnippets" class="copy-btn">📋 Copy Snippets</button>
     </div>
 
@@ -87,8 +92,8 @@ No suggestions yet.
     <div class="insights-section">
       <h3>💡 Key Insights</h3>
       <textarea id="resumeInsights" class="readonly-text" readonly>
-No insights available.
-      </textarea>
+No insights available.</textarea
+      >
       <button id="copyInsights" class="copy-btn">📋 Copy Insights</button>
     </div>
 

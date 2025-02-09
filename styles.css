@@ -293,3 +293,64 @@ input[type="file"] {
 .copy-btn:active {
   transform: scale(0.98);
 }
+
+/* Match Category */
+.match-category {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: block;
+  text-align: center;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Recommendation Box */
+.match-recommendation {
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 4px solid;
+  text-align: left;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+/* 🔥 Excellent Fit (90-100%) */
+.excellent .match-score,
+.excellent .match-category {
+  color: #00e6a1;
+}
+.excellent .match-recommendation {
+  border-left-color: #00e6a1;
+}
+
+/* ✅ Good Fit (75-89%) */
+.good .match-score,
+.good .match-category {
+  color: #ffd700;
+}
+.good .match-recommendation {
+  border-left-color: #ffd700;
+}
+
+/* ⚠️ Moderate Fit (60-74%) */
+.moderate .match-score,
+.moderate .match-category {
+  color: #ff8c00;
+}
+.moderate .match-recommendation {
+  border-left-color: #ff8c00;
+}
+
+/* ❌ Weak Fit (Below 60%) */
+.weak .match-score,
+.weak .match-category {
+  color: #ff6666;
+}
+.weak .match-recommendation {
+  border-left-color: #ff6666;
+}
